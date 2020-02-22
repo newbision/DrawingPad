@@ -74,14 +74,9 @@ public class DrawingPad extends View {
 
         //Initializing the paint attributes
         mPaint = new Paint();
-        mPaint.setAntiAlias(true);
-        mPaint.setDither(true);
         mPaint.setColor(Color.BLACK);
         mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
-        mPaint.setXfermode(null);
-        mPaint.setAlpha(0xff);
 
         drawingType = AppConstant.DRAWING_TYPE_PENCIL;
     }
@@ -129,12 +124,9 @@ public class DrawingPad extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        //canvas.save();
         canvas.concat(mMatrix);
         clipCanvas = canvas.getClipBounds();
-        //mBoard.draw(canvas);
-
-        //mCanvas.drawColor(backgroundColor);
+        canvas.drawBitmap(mBitmap, 0,0, null);
 
         for (Drawing drawing : drawingList) {
             mPaint.setColor(drawing.getColor());
@@ -142,10 +134,14 @@ public class DrawingPad extends View {
 
             switch (drawing.getType()) {
                 case AppConstant.DRAWING_TYPE_PENCIL:
-                    //mPaint.setMaskFilter(null);
                     mPaint.setStyle(Paint.Style.STROKE);
 
-                    mCanvas.drawPath(drawing.getPath(), mPaint);
+                    if(!isUndoRedo) {
+                        canvas.drawPath(drawing.getPath(), mPaint);
+                    } else {
+                        mCanvas.drawPath(drawing.getPath(), mPaint);
+                    }
+
                     Log.d("check_drawing", "Pencil");
                     break;
 
@@ -155,7 +151,12 @@ public class DrawingPad extends View {
                     mPaint.setColor(Color.WHITE);
                     mPaint.setStrokeWidth(AppConstant.STROKE_WIDTH_5);
 
-                    mCanvas.drawPath(drawing.getPath(), mPaint);
+                    if(!isUndoRedo) {
+                        canvas.drawPath(drawing.getPath(), mPaint);
+                    } else {
+                        mCanvas.drawPath(drawing.getPath(), mPaint);
+                    }
+
                     Log.d("check_drawing", "Eraser");
                     break;
 
@@ -258,8 +259,6 @@ public class DrawingPad extends View {
             }
         }
 
-        canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
-        //canvas.restore();
     }
 
     @Override
@@ -276,25 +275,26 @@ public class DrawingPad extends View {
                 case MotionEvent.ACTION_DOWN:
                     //This action is called when the user first touch the screen.
                     touchStart(x, y);
-                    invalidate();
 
                     Log.d("check_process", "onTouchEvent: Action Down X: " + x + " Y: " + y);
                     break;
                 case MotionEvent.ACTION_MOVE:
                     //This action is called when the user move the finger on the screen.
                     touchMove(x, y);
-                    invalidate();
 
                     Log.d("check_process", "onTouchEvent: Action Move X: " + x + " Y: " + y);
                     break;
                 case MotionEvent.ACTION_UP:
                     //This action is called when the user un-touch the screen
                     touchUp();
-                    invalidate();
 
                     Log.d("check_process", "onTouchEvent: Action Up");
                     break;
             }
+
+            Drawing currentDrawing = drawingList.get(drawingList.size() - 1);
+            drawCanvasBitmap(currentDrawing);
+
             return true;
         }
 
@@ -374,6 +374,17 @@ public class DrawingPad extends View {
 
     private void drawCanvasBitmap(Drawing drawing) {
         switch (drawing.getType()){
+            case AppConstant.DRAWING_TYPE_PENCIL:
+                mPaint.setStyle(Paint.Style.STROKE);
+                mCanvas.drawPath(drawing.getPath(), mPaint);
+                break;
+            case AppConstant.DRAWING_TYPE_ERASER:
+                mPaint.setStyle(Paint.Style.STROKE);
+                mPaint.setColor(Color.WHITE);
+                mPaint.setStrokeWidth(AppConstant.STROKE_WIDTH_5);
+
+                mCanvas.drawPath(drawing.getPath(), mPaint);
+                break;
             case AppConstant.DRAWING_TYPE_LINE:
                 mPaint.setStyle(Paint.Style.STROKE);
                 mCanvas.drawLine(drawing.getStartX(), drawing.getStartY(), drawing.getStopX(), drawing.getStopY(), mPaint);
