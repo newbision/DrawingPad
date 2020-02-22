@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Drawing Pad</string>
+    <string name="done">Done</string>
+    <string name="black">Black</string>
+    <string name="blue">Blue</string>
+    <string name="red">Red</string>
+    <string name="green">Green</string>
+    <string name="yellow">Yellow</string>
+    <string name="line_width_1">Line Width 1</string>
+    <string name="filled_circle">Filled Circle</string>
+    <string name="circle">Circle</string>
+    <string name="filled_rect">Filled Rect</string>
+    <string name="rect">Rect</string>
+    <string name="arrow">Arrow</string>
+    <string name="line">Line</string>
+    <string name="eraser">Eraser</string>
+    <string name="pencil">Pencil</string>
+    <string name="hand">Hand</string>
+    <string name="no_path_drawn_yet">No Path drawn yet.</string>
+    <string name="drawing_save">Drawing saved successfully.</string>
+    <string name="ok">ok</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+</resources>
