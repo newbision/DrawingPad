@@ -110,8 +110,7 @@ public class DrawingPad extends View {
         mBoard.setBounds(0, 0, (int) mBoardWidth, (int) mBoardHeight);
 
         mMatrix = new Matrix();
-        //mMatrix.setScale(scaleFactor, scaleFactor);
-        //float scale = ((float)((int)(scaleFactor * 100))) / 100;
+
         float centreX = view.getX() + width  / 2;
         float centreY = view.getY() + height / 2;
         mMatrix.setScale(scaleFactor, scaleFactor, centreX, centreY);
@@ -364,11 +363,6 @@ public class DrawingPad extends View {
     private void touchUp() {
         mPath.lineTo(mX, mY);
 
-        //int index = drawingList.size() - 1;
-        //Drawing drawing = drawingList.get(index);
-        //drawing.setPath(mPath);
-        //drawingList.set(index, drawing);
-
         Log.d("check_process", "touchUp");
     }
 
@@ -461,7 +455,7 @@ public class DrawingPad extends View {
     }
 
     public void enableDisableEraser() {
-        //selectEraserListener.selectEraser(drawingList);
+
     }
 
     public void setUndo() {
@@ -565,7 +559,6 @@ public class DrawingPad extends View {
     //This is used to calculate the degree for showing arrow head
     public double calculateDegree(float x1, float x2, float y1, float y2) {
         float startRadians = (float) Math.atan((y2 - y1) / (x2 - x1));
-        //System.out.println("radian=====" + Math.toDegrees(startRadians));
         startRadians += ((x2 >= x1) ? 90 : -90) * Math.PI / 180;
         return Math.toDegrees(startRadians);
     }
