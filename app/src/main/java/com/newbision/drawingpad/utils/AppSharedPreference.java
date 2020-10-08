@@ -10,7 +10,7 @@ public class AppSharedPreference {
         app_preference = context.getSharedPreferences(AppConstant.APP_SHARED_PREFERENCE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = app_preference.edit();
         editor.putString(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     public static void addIntegerPreference(Context context, String key, int value){
@@ -18,7 +18,7 @@ public class AppSharedPreference {
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = app_preference.edit();
         editor.putInt(key, value);
-        editor.commit();
+        editor.apply();
     }
 
     public static String getStringPreference(Context context, String key, String default_value){
